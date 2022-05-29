@@ -12,7 +12,9 @@ Here are the tasks we´re gonna pursue:
 3. apply a change in our code and commit to main branch repository;
 4. as result of the "git push", a "GitHub Action" will be triggered to perform a DAST (Dynamic Application Security Testing) against the web application.
 
-The diagram on bottom page depicts the idea ;-)
+I believe this diagram depicts better the idea ;-)
+
+![Workflow](https://github.com/robertson-diasjr/security-labs/blob/main/Diagram.jpg)
 
 ## Environment services and tools
 1. DAST Tools
@@ -69,6 +71,3 @@ Create any file within main repository and commit. Since the directory ".github/
 
 ## Final considerations
 As I mentioned early, it´s a pretty basic idea how to initiate on DevSecOps and integrate CI/CD pipelines with a minimum security embedded. I hope you enjoyed !!! :+1:
-
-## Diagram
-![Workflow](https://github.com/robertson-diasjr/security-labs/blob/main/Diagram.jpg)
