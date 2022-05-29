@@ -69,4 +69,4 @@ Create any file within main repository and commit. Since the directory ".github/
 As I mentioned early, it´s a pretty basic idea how to initiate on DevSecOps and integrate CI/CD pipelines with a minimum security embedded. I hope you enjoyed !!! :+1:
 
 ## Diagram
-![Workflow](https://github.com/robertson-diasjr/public/blob/main/security-labs/Diagram.jpg)
+![Workflow](https://github.com/robertson-diasjr/security-labs/blob/main/Diagram.jpg)
