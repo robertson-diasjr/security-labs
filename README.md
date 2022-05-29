@@ -12,7 +12,9 @@ Here are the tasks we´re gonna pursue:
 3. apply a change in our code and commit to main branch repository;
 4. as result of the "git push", a "GitHub Action" will be triggered to perform a DAST (Dynamic Application Security Testing) against the web application.
 
-## Environment services and tools:
+The diagram on bottom page depicts the idea ;-)
+
+## Environment services and tools
 1. DAST Tools
     * OWASP Zed Attack Proxy (ZAP)
     * Nikto Web Scanner
