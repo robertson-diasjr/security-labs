@@ -1,4 +1,4 @@
-# Demystifying DevSecOps with CI/CD
+# Demystifying the basics of security embedded on CI/CD pipelines
 
 This lab aims to shed some insights to reduce or eliminate the grey clouds once DevSecOps discussions are raised into the table.
 
