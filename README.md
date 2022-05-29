@@ -43,7 +43,7 @@ For "Azure CLI" instructions, please visit the URL: https://docs.microsoft.com/e
 
 2. GitHub Repository
     - Step 1: 
-        - Update the file "actions.yaml" and insert the public IP created on previous step (it´s our web server)
+        - Update the file "actions.yaml" and insert the public IP created on previous step (it´s our target web server)
     - Step 2:
         - Inside main repo > click on **Actions** (top button) > click on **set up a workflow yourself** > replace the current content by the **actions.yaml** content > click on **Start commit** > click on **Commit new file**.
 
