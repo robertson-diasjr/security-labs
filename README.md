@@ -46,13 +46,16 @@ For "Azure CLI" instructions, please visit the URL: https://docs.microsoft.com/e
         - Update the file "actions.yaml" and insert the public IP created on previous step (it´s our target web server)
     - Step 2:
         - Inside main repo > click on **Actions** (top button) > click on **set up a workflow yourself** > replace the current content by the **actions.yaml** content > click on **Start commit** > click on **Commit new file**.
-
-## Validation
-Create any file within main repository and commit. Since the directory ".github/workflows" is not empty and the file "actions.yaml" is there, the "commit" triggers the actions on yaml file, which consists in performing the DAST scanning against the target web server.
+    - Step 3:
+        - Since the previous step created a new file "main.yaml" within the ".github/workflows" directory, this action will immediately trigger the DAST scanning against the target web server.
+    
+From this moment, any modification (add/del/change) on main repo will trigger the action to scan the target web server :-)
 
 ## Next stage and ideas
 1. Thus far the Web Application Firewall is on **mode "detection"**, which means no blocks are expected (even the web app under massive attack).
+
 2. So now turn the Web Application Firewall to **mode "prevention"** and lets see how the results ;-)
+
 3. Instead of running both scans simultaneously, you can wait the scan-1 completion (without issues) to initiate the scan-2. In a real world it would be similar like: "Run the tests and in case of no issues, then the approver will allow the code release into production. J
 
 ## Cleanup
