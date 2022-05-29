@@ -43,13 +43,9 @@ For "Azure CLI" instructions, please visit the URL: https://docs.microsoft.com/e
 
 2. GitHub Repository
     - Step 1: 
-        - In your git repo main, create the directories as follow: your main repo > .github > workflows
-    - Step 2:
         - Update the file "actions.yaml" and insert the public IP created on previous step (it´s our web server)
-    - Step 3:
-        - Copy the updated file "actions.yaml" into directory "workflows"
-    - Step 4:
-        - Commit the changes !!!
+    - Step 2:
+        - Inside main repo > click on **Actions** (top button) > click on **set up a workflow yourself** > replace the current content by the **actions.yaml** content > click on **Start commit** > click on **Commit new file**.
 
 ## Validation
 Create any file within main repository and commit. Since the directory ".github/workflows" is not empty and the file "actions.yaml" is there, the "commit" triggers the actions on yaml file, which consists in performing the DAST scanning against the target web server.
@@ -67,7 +63,7 @@ Create any file within main repository and commit. Since the directory ".github/
         - download the script "destroy.ps1" and run within a powershell. I.e.: .\destroy.ps1
 
 2. GitHub Repository
-    - Up to you decides delete the repo or just delete the "actions.yaml" within directory ".github/workflows". This action will disable the scans anyway.
+    - Up to you decides delete the repo or just delete the ".github/workflows" directory. Any of them will disable the scans.
 
 ## Final considerations
 As I mentioned early, it´s a pretty basic idea how to initiate on DevSecOps and integrate CI/CD pipelines with a minimum security embedded. I hope you enjoyed !!! :+1:
