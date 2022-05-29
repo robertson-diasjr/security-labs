@@ -1,8 +1,8 @@
 # Log in on Azure Portal
 az login
 
-# Define variables
-$rgname = "DevSecOps"
+# Define variables - Change as you need ;-)
+$rgname = "myDemoRG"
 $location = "brazilsouth"
 $containername = "nginxdemos"
 $containerimage = "nginxdemos/hello"
