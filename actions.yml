@@ -28,7 +28,7 @@ jobs:
     - name: OWASP ZAP Baseline Scan
       uses: zaproxy/action-baseline@v0.7.0
       with:
-        target: <Target Public IP>
+        target: http://<Target Public IP>
         issue_title: ZAP Scan Baseline Report
 
   
