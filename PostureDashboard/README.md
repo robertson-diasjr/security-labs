@@ -29,7 +29,7 @@ That being said, I'm considering:
 ## Importing secure score into DB
 1. Grafana will generate data stored into MySQL and MySQL will store the data You gathered during the secure posture assessment.
 
-2. Open the "Security-Assessment-Controls.xlsx" spreadsheet and go through line by line flagging the controls. 
+2. Open the "Security-Assessment-Controls.xlsx" spreadsheet and go through line by line flagging the applicable controls as their maturity.
    - Acceptable values: 0, 25, 50, 75, 100 or N/A.
 
 3. Save the file as "CSV" and **rename** it as **"<month_year>.csv**. I.e.: If you´re assessing in ***2022, September***, then the CSV file will be renamed to: **09_2022.csv**
