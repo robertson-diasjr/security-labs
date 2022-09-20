@@ -14,7 +14,7 @@ Here are the tasks we´re gonna pursue:
 
 I believe this diagram depicts better the idea ;-)
 
-![Workflow](https://github.com/robertson-diasjr/security-labs/DevSecOps/blob/main/Diagram.jpg)
+![Workflow](https://github.com/robertson-diasjr/security-labs/blob/main/DevSecOps/Diagram.jpg)
 
 ## Environment services and tools
 1. DAST Tools
