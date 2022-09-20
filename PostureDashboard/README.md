@@ -1,4 +1,4 @@
-# Building and Tracking Your Own Security Posture Dashboard
+# Building and Tracking the Security Posture through Your Own Dashboard
 
 This artifact aims to create clarity on methods to track the company secure posture across common security controls embracing data protection upon On-Premises, Hybrid and/or Cloud Environments.
 
