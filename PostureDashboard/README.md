@@ -12,10 +12,10 @@ So, going through this artifact you will realize that even on small environments
 
 To sum up, we´re going to build the whole data processing environment on top of Linux/Unix and using open-source softwares and packages.
 
-To success on this approach I'm considering:
+That being said, I'm considering:
 
-1. You already have a system running Linux and/or Unix 
-2. MySQL (MariaDB) and GrafanaMySQL successfully installed
+1. You already have a system running Linux and/or Unix or know how to spin up one.
+2. MySQL (MariaDB) and GrafanaMySQL successfully installed or know how to setup on top of above system.
 
 ## Setting up the database
 
