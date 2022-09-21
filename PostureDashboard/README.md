@@ -21,7 +21,7 @@ That being said, I'm considering:
 
 **First and foremost - change the DB password within file "load-sql-schema.sql" according your requirements and update it on script "load-score.sh". Recommend you to enhance the credentials protection using the MySQL best-practices**
 
-1. Create the DB schema (DB, tables, credentials, etc): $ mysql -u root -p < load-sql-schema.sql
+1. Create the DB schema (DB, tables, credentials, etc): `$ mysql -u root -p < load-sql-schema.sql`
 
 ## Setting up the Grafana
 1. Access the Grafana portal and add the Mysql DB using the credentials previously updated by You ;-)
@@ -36,7 +36,7 @@ That being said, I'm considering:
 
 4. Upload the **csv** into the Linux/Unix system into the same directory where the **"load-score.sh" script** resides.
 
-5. Run the script to parse the data and load into the DB: $ source load-score.sh 09_2022.csv
+5. Run the script to parse the data and load into the DB: `$ source load-score.sh 09_2022.csv`
 
 Done. At this stage you´re ready to create the Grafana dashboards, since the data were successfully loaded into DB.
 
@@ -46,19 +46,19 @@ Done. At this stage you´re ready to create the Grafana dashboards, since the da
 Below you can find some dashboards and the respective SQL query.
 
 
-SELECT time, Security_Domain 'Security Domain', AVG(Security_Control_Rate) '%' FROM tracking WHERE Customer = 'Client A' AND Security_Domain = 'Application' GROUP BY time;
+`SELECT time, Security_Domain 'Security Domain', AVG(Security_Control_Rate) '%' FROM tracking WHERE Customer = 'Client A' AND Security_Domain = 'Application' GROUP BY time;`
 ![Latest_Score](https://github.com/robertson-diasjr/security-labs/blob/main/PostureDashboard/1.jpg)
 
-SELECT time, Security_Domain 'Security Domain', AVG(Security_Control_Rate) '% Score' FROM tracking WHERE Customer = 'Client A' AND Security_Domain = 'Devices' GROUP BY time;
+`SELECT time, Security_Domain 'Security Domain', AVG(Security_Control_Rate) '% Score' FROM tracking WHERE Customer = 'Client A' AND Security_Domain = 'Devices' GROUP BY time;`
 ![Progress](https://github.com/robertson-diasjr/security-labs/blob/main/PostureDashboard/2.jpg)
 
-SELECT time, Security_Domain 'Security Domain', COUNT(Security_Control_Rate) '' FROM non_tracking WHERE Customer = 'Client A' AND Security_Domain = 'Application' GROUP BY time;
+`SELECT time, Security_Domain 'Security Domain', COUNT(Security_Control_Rate) '' FROM non_tracking WHERE Customer = 'Client A' AND Security_Domain = 'Application' GROUP BY time;`
 ![Progress](https://github.com/robertson-diasjr/security-labs/blob/main/PostureDashboard/3.jpg)
 
-SELECT time, Security_Control_Name 'Focus On' FROM tracking WHERE Customer = 'Client A' AND Security_Control_Rate = '0' GROUP BY Security_Control_Name ORDER by 'Security_Control_Name' ASC;
+`SELECT time, Security_Control_Name 'Focus On' FROM tracking WHERE Customer = 'Client A' AND Security_Control_Rate = '0' GROUP BY Security_Control_Name ORDER by 'Security_Control_Name' ASC;`
 ![ToFocus](https://github.com/robertson-diasjr/security-labs/blob/main/PostureDashboard/4.jpg)
 
-SELECT time, Security_Domain 'Security Domain', AVG(Security_Control_Rate) '% Score' FROM tracking WHERE Customer = 'Client A' AND Security_Domain = 'Application' GROUP BY time;
+`SELECT time, Security_Domain 'Security Domain', AVG(Security_Control_Rate) '% Score' FROM tracking WHERE Customer = 'Client A' AND Security_Domain = 'Application' GROUP BY time;`
 ![OverallPosture](https://github.com/robertson-diasjr/security-labs/blob/main/PostureDashboard/5.jpg)
 
 ## Next stage and ideas
