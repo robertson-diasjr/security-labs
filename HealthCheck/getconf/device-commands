@@ -1,0 +1,6 @@
+set terminal length 0
+show configuration commands
+file /var/log/dailylogs/vyatta
+file /home/sasauto/.bash_history
+file /var/log/auth.log
+file /var/log/faillog

@@ -1,0 +1,16 @@
+*Standard:* Information Security Controls (ISeC)
+*Version:* 3.0
+*Customer:* Client_Name
+
+SECTION_VTY
+line con 
+ password 
+ session-timeout [1-2][0-9]|[3][0]
+line aux 
+ session-timeout [1-2][0-9]|[3][0]
+line vty
+ session-timeout [1-2][0-9]|[3][0]
+ access-class 
+ password 
+ transport preferred ssh
+END_SECTION_VTY

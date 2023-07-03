@@ -1,0 +1,76 @@
+Version: 1.0
+Date: 08/05/2013
+Changed by: robertson.diasjr@gmail.com
+Details: initial
+
+---------
+
+Version: 1.1
+Date: 06/06/2013
+Changed by: robertson.diasjr@gmail.com
+Details:
+- adjust VTY functions into scripts "exec-hc-cisco-nexus.sh and
+exec-hc-cisco-sw.sh" to parse exactly (egrep -w) configurations patterns
+
+- adjust regex parse for Cisco Switch/Nexus templates on VTY_SECTION to parse
+"session-timeout [1-2][0-9]|[3][0]"
+
+---------
+
+Version 1.2
+Date: 20140423
+Changed by: robertson.diasjr@gmail.com
+
+Details:
+
+	Added the following checks in exec-hc-cisco-fw.sh and in default template:
+
+	1. XAUTH CHECKING: the script verify if there are IPSec VPN client configured on
+	device. If there are no VPN Client configured on device, XAuth check is not required
+	so the script returns PASS. If there are any VPN client, it performs XAuth check.
+	If XAuth is disabled then returns FAILED else, if XAuth if enabled (the default 
+	configuration on Cisco ASA firewall) the script returns a WARNING regarding 
+	password requirements and VPN authentication parameters. Added SECTION_XAUTH in
+	default template file. Further steps are checking for AnyConnect and EZVPN features.
+
+	2. FLOODGUARD CHECKING: this checks only applies for PIX devices since floodguard 
+	configuration is deprecated in ASA, it is enabled by default and cannot be modified. 
+	Therefore it returns PASS if is an ASA, else it verifies wheather the PIX floodguard
+	configuration is enable or not. Even if the floodguard check is OK for PIX, the script
+	returns a WARNING, since PIX is a out of service model. Added SECTION_FLOODGUARD in
+	default template file.
+
+	3. AAA SERVER DEPLETION MODE: since Cisco ASA 7.0(1) the default value for this configuration
+	is 10 minutes of deadtime, but the default configuration is not shown on running-config output.
+	So the script checks the deadtime configured for reactivation of AAA depletion on device and
+	compares with the value on template. Returning PASS or FAILED regarding on the policy requirements
+	inserted in template file. SECTION_DEADTIME added.
+
+	4. SNMP COMMUNITY CHECKING BY TEMPLATE: the SNMP community requirements are inputed directly
+	in template file. Edit the script code is no longer necessary.
+
+	5. WARNINGS: included warnings where extras checks are required. Add the results 
+	in final check and summary.
+
+	ALSO: 
+	- It has been made some minor changes on exec-hc-cisco-sw.sh script in order to make it usable
+	on AP devices
+	- Added several customers templates
+
+Version 1.3
+Date: 20140702
+Changed by: robertson.diasjr@gmail.com
+
+Details:
+	
+	Added health-check functions to new technology vendor platform: JUNIPER Networks.
+	All system running operating system JUNOS are supported, like EX and
+	SRX.
+
+Version 1.4
+Date: 20180504
+Changed by: robertson.diasjr@gmail.com
+
+Details:
+
+	Included Vyatta Firewall

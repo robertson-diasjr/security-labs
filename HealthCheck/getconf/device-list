@@ -1,0 +1,2 @@
+# Hostname;IP;method;user;user password
+vyatta;192.168.0.1;ssh;sasauto;0

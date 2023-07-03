@@ -1,0 +1,346 @@
+#!/usr/bin/expect --
+##########################################################################
+# vty_runcmd.exp
+# 
+#    This is an expect script that will connect to a device using ssh or
+#    telnet, then run the specified command.  The output will either be 
+#    written to an output file or printed to stdout.
+#
+# Created by Tim Evens (tim@evensweb.com), 5/2009
+# Corrected by Sergio Zavala (sergio.zavala at sidetec.com.mx), 12/2010
+#
+# Copyright Tim Evens, 2009
+#
+# HISTORY:
+#   Tim Evens	5/21/09	Initial program created
+#   Sergio Zavala	12/26/10 Connection return code corrected 
+#   Tim Evens	1/05/10	Connection validated
+##########################################################################
+
+#++++++++++++++++++++++++++
+# Global vars
+#++++++++++++++++++++++++++
+set timeout 30
+# below matches prompts such as "router#", "router>", "router$"
+set prompt "\>\ *$|#\ *$|\\$\ *$"
+
+
+#-----------------------------------------------
+# Connect(method, prompt, host, user, password)
+#    This function will connect to a host using telnet or ssh.
+# 
+# RETURNS:
+#    zero if successful
+#    1 = timeout or invalid hostname or method
+#    2 = invalid login
+#    3 = timeout waiting for login
+#    4 = connection failed to host during expect wait
+#    9 = unknown error
+#-----------------------------------------------
+proc Connect {method host usr pw} {
+   set rval 0
+   set usr_chk 0
+   set pw_chk 0
+   set max_checks 4
+   global spawn_id
+   global timeout
+   global prompt
+  
+   #puts "Connecting using $method to $host as user $usr"
+   
+   # see if we are using ssh
+   if { [string compare $method "ssh"] == 0 } {
+      set host "$usr@$host"
+   }
+   
+   # Run command and get connected
+   set id [spawn $method $host]
+   if { $id <= 0 } {
+      puts "ERROR: Failed to connect to host\n"
+      set rval 1
+      
+   } else {
+      puts "Using Process ID: $id"
+   }
+   
+   # Start the expect/send process to login
+   expect {
+   
+      # Below handles the username prompt
+      -nocase -re "name:|^login:" {
+         send "$usr\r"
+         incr usr_chk;
+         
+         # continue with expect loop as long as we haven't hit this too many times         
+         if { $usr_chk < $max_checks } {
+            exp_continue
+         } else {
+            set rval 2
+            puts "ERROR: Login retry failed.  Invalid login username"
+         }   
+
+       # Below handles the password prompt
+       } -nocase -re "word:" {
+         send "$pw\r"
+         incr pw_chk;
+         
+         # continue with expect loop as long as we haven't hit this too many times
+         if { $pw_chk < $max_checks } {
+            exp_continue        
+         } else {
+            set rval 2
+            puts "ERROR: Login retry failed.  Invalid login password"
+         }   
+         
+      # Below handles the yes/no prompt when SSH first connects to a host   
+      } -nocase -re "\(yes/no\)" {
+         send "yes\r"
+         exp_continue
+      
+      # Below handles the normal prompt to detect when logged in
+      } -nocase -re "$prompt" {
+         puts "\nSUCCESS: Logged in and ready to send commands\n"
+
+      # Below is for expect timeout waiting for a                                 
+      } timeout {
+         puts "ERROR: Connection timeout waiting for login prompt"
+         set rval 3
+      
+      # Below is for when the connect is closed before finishing   
+      } eof {
+         puts "ERROR: Connection to host failed: $expect_out(buffer)"
+         set rval 4
+      }
+   }
+     
+   # return with error code
+   return $rval
+} 
+# End of Connect ()
+
+#-----------------------------------------------
+# Usage()
+#     This function will print the usage
+#-----------------------------------------------
+proc Usage {} {
+
+   puts "Usage: ciscocmd.exp <options>"
+   puts "\n"
+   puts "REQUIRED OPTIONS:"
+   puts "   -h <hostname|ip>   = hostname or ip address"
+   puts "   -u <username>      = username to login with"
+   puts "   -p <password>      = password for login"
+   puts "\n"
+   puts "Other OPTIONS:"
+   puts "   -e <enable password> = Enable password"
+   puts "   -t <seconds>         = timeout in seconds"
+   puts "   -m <ssh|telnet>      = use either ssh or telnet, default telnet"
+   puts "   -f <filename>        = command file, defaults to STDIN"
+   puts "\n"
+}
+# End of Check_ARGS()
+
+#-----------------------------------------------
+# main() 
+# 
+# RETURNS:
+#    0 if successful
+#    1 if invalid arg passed
+#    2 not enough args (required args not met)
+#-----------------------------------------------
+   set rval 0
+   set hostname ""
+   set username ""
+   set password ""
+   set enable_pw ""
+   set cmdfile ""
+   set method "telnet"
+
+   # Loop through the command line args   
+   for {set n 0} {$n < $argc} {incr n} {
+   
+      set arg [lindex $argv $n]
+      
+      # Check the args
+      if { [string compare $arg "-u"] == 0} {
+         if { $n < $n+1 } {
+            incr n
+            set username [lindex $argv $n]
+         } else {
+            set rval 1
+            puts "ERROR: Missing ARG for $arg\n"
+         }
+    
+      } elseif { [string compare $arg "-p"] == 0} {
+         if { $n < $n+1 } {
+            incr n
+            set password [lindex $argv $n]
+         } else {
+            set rval 1
+            puts "ERROR: Missing ARG for $arg\n"
+         }
+         
+      } elseif { [string compare $arg "-h"] == 0} {
+         if { $n < $n+1 } {
+            incr n
+            set hostname [lindex $argv $n]
+         } else {
+            set rval 1
+            puts "ERROR: Missing ARG for $arg\n"
+         }
+
+      } elseif { [string compare $arg "-m"] == 0} {
+         if { $n < $n+1 } {
+            incr n
+            set method [lindex $argv $n]
+
+         } else {
+            set rval 1
+            puts "ERROR: Missing ARG for $arg\n"
+         }
+         
+      } elseif { [string compare $arg "-t"] == 0} {
+         if { $n < $n+1 } {
+            incr n
+            set timeout [lindex $argv $n]
+         } else {
+            set rval 1
+            puts "ERROR: Missing ARG for $arg\n"
+         }
+ 
+      } elseif { [string compare $arg "-f"] == 0} {
+         if { $n < $n+1 } {
+            incr n
+            set cmdfile [lindex $argv $n]
+         } else {
+            set rval 1
+            puts "ERROR: Missing ARG for $arg\n"
+         }
+         
+      } elseif { [string compare $arg "-e"] == 0} {
+         if { $n < $n+1 } {
+            incr n
+            set enable_pw [lindex $argv $n]
+         } else {
+            set rval 1
+            puts "ERROR: Missing ARG for $arg\n"
+         }
+      }
+   }
+   # End of arg check
+        
+   # make sure we found the amount of args expected   
+   if { [llength $hostname] > 0 && [llength $method] > 0 && 
+          [llength $username] > 0 && [llength $password] > 0 } {
+      # Print out the args found
+      # puts "hostname = $hostname, user = $username, pw = $password, method = $method"
+      # puts "hostname = $hostname, user = $username, method = $method"
+      
+   } else {
+      set rval 2
+      puts "ERROR: Missing required args, must have -h, -u, -p\n"
+      Usage
+   }
+   
+   # ------------------
+   # Now that we have the correct ARGS and we know what to do, lets proceed to
+   #     connect, run the commands, then exit.
+   # ------------------
+   
+   # make sure we have not encountered any errors
+   if { $rval <= 0 } {
+   
+      if { [llength $cmdfile] <= 0 } {
+         puts "Enter the send text (type 'end' on last line to finish):"
+         expect_user -nocase -re "(.*)\nend\n"
+         set send_text $expect_out(1,string)
+         
+      } else {
+         puts "Using $cmdfile for send text"
+         # set cmdfile_fd [open $cmdfile r]
+         if { [catch {set cmdfile_fd [open $cmdfile r]} err_msg] } {
+            puts stderr "Could not open $cmdfile for reading\n$err_msg"
+            exit 1
+         }
+         
+         # read in the file info - warning there is a limit on the size
+         set send_text [read $cmdfile_fd 10000]
+         
+         # close open file
+         close $cmdfile_fd      
+      }
+
+      # connect and check return status before proceeding
+      if { [Connect "$method" "$hostname" "$username" "$password"] > 0 } {
+         # stop here,  no need to print an error since Connect func does that
+         exit 1
+      }
+
+      
+      # If we have an enable password, lets try to send it
+      if { [llength $enable_pw] > 0} {
+         puts "***Using enable mode"
+         send "enable\r"
+         expect {
+            -timeout 3
+            # Below handles the password prompt
+            -nocase -re "word:" {
+               send "$enable_pw\r"
+               exp_continue
+      
+            # Below handles the normal prompt to detect when logged in
+            } -re "#\ *$" {
+               puts "--SUCCESS on enable mode--"
+
+            # Below is for expect timeout waiting for a                                 
+            } timeout {
+               puts "ERROR: Enable password timeout"
+               set rval 3
+      
+            # Below is for when the connect is closed before finishing   
+            } eof {
+               puts "ERROR: Connection to host failed: $expect_out(buffer)"
+               set rval 4
+            }         
+         }
+      }
+      
+      # Loop through the send_text and send one line at a time         
+      foreach line [split $send_text \n] {
+         # Make sure to exclude empty lines
+         if { [llength $line] > 0 } {           
+            send "$line\r"
+            
+            # Start the expect/send process to login
+            expect {            
+               # Below handles the yes/no prompts  
+               -nocase -re "\(yes/no\)" {
+                  send "yes\r"
+                  exp_continue
+               
+               # Below handles the y/n prompts  
+               } -nocase -re "\(yes/no\)" {
+                  send "yes\r"
+                  exp_continue
+
+               # Below handles the y/n prompts  
+               } -nocase -re "--more--" {
+                  send " "
+                  exp_continue
+                                          
+               # Below handles the normal prompt to detect when logged in
+               } -nocase -re "$prompt" {
+                  puts "\n--SUCCESS for normal login prompt--\n"
+               }
+            }
+                
+         }
+      }
+      
+      # Now that we are done, send an exit
+      puts "*** Finished with script"
+      send "exit\r"
+      sleep 1
+   }
+
+## END OF SCRIPT #############################################################

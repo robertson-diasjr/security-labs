@@ -1,0 +1,73 @@
+*Standard:* Information Security Controls (ISeC)
+*Version:* Best Practices for Transition
+*Customer:* Customer
+
+SECTION_GLOBAL
+Evaluating Hostname
+host-name
+
+Evaluating AAA Authentication
+^set system authentication-order radius
+^set system radius-server [[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}
+
+Evaluating AAA Accounting
+^set system accounting destination radius server
+
+Evaluating AAA Invalid Attempts
+^set system login retry-options tries-before-disconnect [3-5]
+
+Evaluating Banner
+^set system login message
+
+Evaluating Enable Password Encryption
+^set system login password format 
+
+Evaluating Enable Secret
+^set system root-authentication encrypted-password
+
+Evaluating Failsafe User
+^set system login user failsafe
+
+Evaluating Minimum Local Password length
+^set system login password minimum-length [9-99]
+
+Evaluating Secure Management
+^set system services ssh protocol-version v2
+^set system services web-management https
+
+Evaluating SSH Timeout
+^set system services ssh client-alive-count-max
+
+Evaluating Disabled ICMP Redirects
+^set system no-redirects
+
+Evaluating Disabled ICMP Timestamp
+^set system no-ping-time-stamp
+
+Evaluating Disabled ICMP Record Route
+^set system no-ping-record-route
+
+Evaluating Discard IP Source-Route
+^set chassis no-source-route
+
+Evaluating Discard TCP Flags (SYN-FIN)
+^set system internet-options tcp-drop-synfin-set
+
+Evaluating Disabled TCP Flags (RST) to non-listening ports
+set system internet-options no-tcp-reset drop-all-tcp
+
+Evaluating Disable LLDP
+^set protocols lldp interface all disable
+
+Evaluating NTP Servers
+^set system ntp server
+
+Evaluating External Logging
+^set system syslog host [[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}
+END_SECTION_GLOBAL
+
+SECTION_SNMP
+Evaluating Community Sections
+set snmp community * 
+END_SECTION_SNMP
+

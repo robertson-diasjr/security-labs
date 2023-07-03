@@ -1,0 +1,83 @@
+*Standard:* Information Security Controls (ISeC)
+*Version:* 1.0
+*Customer:* IAMaaS Vyatta
+
+SECTION_GLOBAL
+Looking for Hostname
+^set system host-name
+
+Looking for Vyatta Version
+6.7R14
+
+Looking for enabling logging activities
+set system syslog global facility
+
+Looking for FW logged and stored network activities
+^/var/log/dailylogs/vyatta: ASCII text
+
+Looking for FW logged and stored history activities
+^/home/sasauto/.bash_history: ASCII text
+^set system config-management commit-revisions '30'
+
+Looking for FW logged and stored logon activities
+^/var/log/auth.log: ASCII text
+^/var/log/faillog: data 
+
+Looking for System Login Banner
+^set system login banner pre-login
+
+Looking for FW Default Action - Inside Interface
+set firewall name BOND0_IN default-action 'drop'
+set firewall name BOND0_LOCAL default-action 'drop'
+set firewall name BOND0_OUT default-action 'drop'
+
+Looking for FW Default Action - Outside Interface
+set firewall name BOND1_IN default-action 'drop'
+set firewall name BOND1_LOCAL default-action 'drop'
+set firewall name BOND1_OUT default-action 'drop'
+
+Looking for FW Control Rules - Inside Interface
+set interfaces bonding bond0 firewall in name 'BOND0_IN'
+set interfaces bonding bond0 firewall local name 'BOND0_LOCAL'
+set interfaces bonding bond0 firewall out name 'BOND0_OUT'
+
+Looking for FW Control Rules - Outside Interface
+set interfaces bonding bond1 firewall in name 'BOND1_IN'
+set interfaces bonding bond1 firewall local name 'BOND1_LOCAL'
+set interfaces bonding bond1 firewall out name 'BOND1_OUT'
+
+Looking for Static Routes
+set protocols static route
+
+Looking for Enabled Session Timeout
+^set system login session-timeout '300'
+
+Looking for SAS Mgmt IDs
+set system login user automate level 'admin'
+set system login user sasauto level 'admin'
+set system login user sasgaas level 'admin'
+
+Looking for Enabled SSH Management
+^set service ssh port '22'
+
+Looking for Enabled Key Authentication and Disabled Password Authentication
+^set service ssh 'disable-password-authentication'
+
+Looking for Anti-Spoof Protection (Reverse Path Filtering)
+^set firewall source-validation
+END_SECTION_GLOBAL
+
+SECTION_MGMT
+Looking for Disabled Config Synchronization
+set system config-sync
+
+Looking for Disabled HTTP/HTTPS Management
+service http
+
+Looking for Disabled Telnet Management
+service telnet
+
+Looking for Disabled ICMP on Interface facing the Internet
+set firewall name BOND1_LOCAL rule [[:digit:]]{1,} protocol 'icmp'
+
+END_SECTION_MGMT

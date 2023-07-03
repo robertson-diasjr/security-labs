@@ -1,0 +1,73 @@
+*Standard:* Information Security Controls (ISeC)
+*Version:* 1.0
+*Customer:* Customer Name
+
+SECTION_GLOBAL
+Evaluating Hostname
+^hostname 
+
+Evaluating AAA Authentication
+aaa authentication 
+
+Evaluating AAA Accounting
+aaa accounting
+
+Evaluating Banner
+banner motd
+
+Evaluating Disable CDP
+no cdp run
+
+Evaluating Disable DHCP/BOOTP Services
+no service dhcp
+
+Evaluating Disable HTTP
+no ip http server
+
+Evaluating Disable TCP Small Services
+service tcp-small-servers
+
+Evaluating Disable UDP Small Services
+service udp-small-servers
+
+Evaluating Discard IP Source-Route
+no ip source-route
+
+Evaluating Enable Password Encryption
+service password-encryption
+
+Evaluating Enable Secret
+enable secret
+
+Evaluating Minimum Local Password length
+security passwords min-length 8
+
+Evaluating External Logging
+^logging [[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}
+
+END_SECTION_GLOBAL
+
+SECTION_SNMP
+Evaluating Community Sections
+snmp-server community *
+END_SECTION_SNMP
+	
+SECTION_INTERFACE
+interface TEMPLATE
+ no ip unreachables
+ no ip proxy-arp
+ no ip redirects
+!
+END_SECTION_INTERFACE
+
+SECTION_VTY
+line con 
+ password 7 
+line aux 
+ session-timeout [1-2][0-9]|[3][0]
+line vty
+ session-timeout [1-2][0-9]|[3][0]
+ access-class 
+ password 7 
+ transport preferred ssh
+END_SECTION_VTY

@@ -1,0 +1,13 @@
+Version: 1.0
+Date: 03/02/2013
+Changed by: robertson.diasjr@gmail.com
+Details: initial
+
+Version: 1.1
+Date: 06/05/2013
+Changed by: robertson.diasjr@gmail.com
+Details:
+- ciscocmd.exp: remove hostname printable string
+- ciscocmd.sh: variable to print hostname instead IP in output file name
+- device-list: adjusted examples
+- examples/device-list-example: adjusted examples

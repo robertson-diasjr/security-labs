@@ -1,0 +1,65 @@
+*Standard:* Information Security Controls (ISeC)
+*Version:* 1.0
+*Customer:* Customer Name
+
+SECTION_GLOBAL
+Evaluating Hostname
+^switchname
+
+Evaluating AAA Authentication
+aaa authentication 
+
+Evaluating AAA Accounting
+aaa accounting
+
+Evaluating Banner
+banner motd
+
+Evaluating Disable CDP
+no cdp enable
+
+Evaluating Disable DHCP/BOOTP Services
+^no feature dhcp
+
+Evaluating Disable HTTP
+^no feature http-server
+
+Evaluating Disable Telnet
+^no feature telnet
+
+Evaluating Discard IP Source-Route
+no ip source-route
+
+Evaluating Enable Password Encryption
+^username admin password
+
+Evaluating Minimum Local Password length
+password strength-checking
+
+Evaluating External Logging
+^logging server [[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}
+
+END_SECTION_GLOBAL
+
+SECTION_SNMP
+Evaluating Community Sections
+^snmp-server community [[:print:]]{1,} use-acl [[:alpha:]]{1,}
+END_SECTION_SNMP
+	
+SECTION_INTERFACE
+!
+interface TEMPLATE
+ description
+ no ip unreachables
+ no ip proxy-arp
+ no ip redirects
+!
+END_SECTION_INTERFACE
+
+SECTION_VTY
+line con
+ exec-timeout [1-2][0-9]|[3][0]
+line vty
+ access-class 
+ exec-timeout [1-2][0-9]|[3][0]
+END_SECTION_VTY
