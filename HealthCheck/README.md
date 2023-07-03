@@ -131,4 +131,4 @@ We recommend use default browser to open both above files.
 - GNU Public License
 
 ## Screenshots
-![HC-Tool](https://github.com/robertson-diasjr/tools/blob/main/hc-diagram.jpg)
+![HC-Tool](https://github.com/robertson-diasjr/security-labs/blob/main/HealthCheck/hc-diagram.jpg)
