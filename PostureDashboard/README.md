@@ -65,4 +65,4 @@ Below you can find some dashboards and the respective SQL query.
 You´re welcome, encouraged and invited to contribute. So drop me an e-mail and lets work together ;-)
 
 ## Final considerations
-As I mentioned early, by far it´s not the purpose to be a source of trouth, model, wharever. Instead, it´s a trigger to encourage you to start dealing with this fascinating CyberSecurity world ;-) Enjoy.
+As I mentioned early, by far it´s not the purpose to be a source of trouth, model, whatever. Instead, it´s a trigger to encourage you to start dealing with this fascinating CyberSecurity world ;-) Enjoy.
